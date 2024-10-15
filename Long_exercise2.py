@@ -29,3 +29,42 @@ else:
 #Resultado
 valor p: 0.0751397944405015
 No podemos rechazar la hipótesis nula
+-----------------------
+'''Tenemos dos datasets: la cantidad de balas compradas por jugadores apasionados de un juego online, antes y después de introducir una mecánica que proporcionó incentivos 
+para disparar en ráfagas. Prueba la hipótesis de que los jugadores empezaron a usar más balas después de que se introdujo la nueva característica.
+Piensa en la palabra "más" de la hipótesis anterior. ¿Sugiere la necesidad de una prueba unilateral o bilateral?'''
+#Código
+from scipy import stats as st
+import numpy as np
+import pandas as pd
+
+bullets_before = [821, 1164, 598, 854, 455, 1220, 161, 1400, 479, 215, 
+          564, 159, 920, 173, 276, 444, 273, 711, 291, 880, 
+          892, 712, 16, 476, 498, 9, 1251, 938, 389, 513]
+
+bullets_after = [904, 220, 676, 459, 299, 659, 1698, 1120, 514, 1086, 1499, 
+         1262, 829, 476, 1149, 996, 1247, 1117, 1324, 532, 1458, 898, 
+         1837, 455, 1667, 898, 474, 558, 639, 1012]
+
+print('media anterior:', pd.Series(bullets_before).mean())
+print('media posterior:', pd.Series(bullets_after).mean())
+
+alpha = 0.05 # significación estadística crítica
+
+results = st.ttest_rel(
+    bullets_before, 
+    bullets_after)
+
+print('valor-p:', results.pvalue / 2)
+
+if (results.pvalue < alpha):
+    print("Rechazamos la hipótesis nula")
+else:
+    print("No podemos rechazar la hipótesis nula")
+#Resultado
+media anterior: 591.7333333333333
+media posterior: 932.0666666666667
+valor-p: 0.005394751910405561
+Rechazamos la hipótesis nula
+# Comentario: ¡Funcionó! Ahora los jugadores disparan en ráfagas y emplean más balas. 
+#Seleccionamos una prueba unilateral debido a la palabra "más". Si no sabemos la dirección del cambio, entonces utilizaremos la prueba bilateral.
